@@ -48,15 +48,8 @@ class Search extends Component {
         }))
     }
 
-
-
-
-
     loadfiltered() {
-      
         (this.state.searchQuery === '') ? this.loadallbooks() : this.searchforbook()
-
-
     }
 
     render() {
