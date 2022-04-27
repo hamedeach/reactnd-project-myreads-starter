@@ -5,29 +5,30 @@ class Book extends Component {
 
     static propTypes = {
         bookobj: propTypes.object.isRequired,
-       
+
     }
 
     state = {
         bookstate: 'none',
     }
 
-    changebookstate(newstate)
-    {
-      console.log('changebookstate : '+newstate)
-        this.setState(()=>({bookstate:newstate}))
+    changebookstate(newstate) {
+        console.log('changebookstate : ' + newstate)
+        this.setState(() => ({ bookstate: newstate }))
     }
 
     render() {
         const mybook = this.props.bookobj;
-        
+        let bg='';
+        (mybook.hasOwnProperty('imageLinks') && mybook.imageLinks.hasOwnProperty('thumbnail'))?bg=mybook.imageLinks.thumbnail:bg='';
+
         return (
             <li key={mybook.id}>
                 <div className="book">
                     <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:'url('+mybook.imageLinks.thumbnail+')'}}></div>
+                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url(' + bg + ')' }}></div>
                         <div className="book-shelf-changer">
-                            <select value={this.state.bookstate} onChange={(event)=>(this.changebookstate(event.target.value))}>
+                            <select value={this.state.bookstate} onChange={(event) => (this.changebookstate(event.target.value))}>
                                 <option value="move" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>

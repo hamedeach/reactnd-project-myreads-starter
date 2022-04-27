@@ -29,11 +29,10 @@ class Search extends Component {
     }
 
     searchforbook() {
-        BooksAPI.search(this.state.searchQuery).then(books => {
+        BooksAPI.search(this.state.searchQuery.trim()).then(books => {
             console.log(books);
-            //(typeof books !== '[object Array]')?console.log(books):console.log('array !!!');
             let searchlist = [];
-            (books === undefined|| !Array.isArray(books) ) ? searchlist = [] : searchlist = books;
+            (books === undefined || !Array.isArray(books)) ? searchlist = [] : searchlist = books;
             this.setState(() => ({
                 stateBooksList: searchlist,
                 title: 'Search Result'
@@ -43,16 +42,19 @@ class Search extends Component {
         );
     }
 
+    searchfunc(query) {
+        this.setState(() => ({
+            searchQuery: query.trim()
+        }))
+    }
 
 
 
 
-    searchfunc(userquery) {
-        this.setState(() => (
-            {
-                searchQuery: userquery
-            }));
-        (userquery === '')? this.loadallbooks() : this.searchforbook()
+
+    loadfiltered() {
+      
+        (this.state.searchQuery === '') ? this.loadallbooks() : this.searchforbook()
 
 
     }
@@ -67,6 +69,13 @@ class Search extends Component {
                             placeholder="Search by title or author"
                             value={this.state.searchQuery}
                             onChange={(event) => this.searchfunc(event.target.value)}
+                            onKeyPress={(event) => {
+                                if (event.key === "Enter") {
+                                    
+                                    this.loadfiltered();
+                                }
+                            }
+                            }
                         />
                     </div>
                 </div>
