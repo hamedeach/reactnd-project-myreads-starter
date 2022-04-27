@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import propTypes from "prop-types";
-import * as BooksAPI from '../BooksAPI';
 import Book from "./book";
 
 
@@ -11,35 +10,32 @@ import Book from "./book";
 */
 class BooksList extends Component {
 
-  state = {
-    allBooksList: []
-  }
-
- 
-
-
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then((receivedBooks) => {
-        console.log(receivedBooks);
-        this.setState(() => ({
-          allBooksList: receivedBooks
-        }))
-      });
+  static propTypes = {
+    booklist: propTypes.array.isRequired,
+    title: propTypes.string.isRequired,
 
   }
+
+
+
+
+
+
+
+
+
 
   render() {
-    const renderBookslist = this.state.allBooksList;
+    const renderBookslist = this.props.booklist;
     return (
       <div className="list-books">
         <div className="list-books-title">
-          <h1>All Books</h1>
+          <h2>{this.props.title}</h2>
         </div>
         <div className="list-books-content">
           <div>
             <div className="bookshelf">
-              <h2 className="bookshelf-title">All Books</h2>
+              <h2 className="bookshelf-title">{this.props.title}</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {
