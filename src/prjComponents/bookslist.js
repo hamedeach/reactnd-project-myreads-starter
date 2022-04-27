@@ -28,7 +28,7 @@ class BooksList extends Component {
   render() {
     const renderBookslist = this.props.booklist;
     return (
-      <div className="list-books">
+      <div>
         <div className="list-books-title">
           <h2>{this.props.title}</h2>
         </div>
