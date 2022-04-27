@@ -23,12 +23,29 @@ class Search extends Component {
     }
 
 
-
-
-
     componentDidMount() {
+
         this.loadallbooks();
     }
+
+    searchforbook() {
+
+        console.log('search');
+        BooksAPI.search(this.state.searchQuery).then(books => {
+            let searchlist = [];
+            (books === undefined) ? searchlist = [] : searchlist = books;
+            this.setState(() => ({
+                stateBooksList: searchlist,
+                title: 'Search Result'
+
+
+            }))
+        }
+
+        );
+    }
+
+
 
 
 
@@ -37,28 +54,9 @@ class Search extends Component {
             {
                 searchQuery: userquery
             }));
-        if (userquery === '') {
+        (userquery === '')? this.loadallbooks() : this.searchforbook()
 
-            this.loadallbooks();
-            this.setState(() => (
-                {
-                    title: 'All Books'
-                }))
 
-        }
-        else {
-            let searchbooklist =[]
-            BooksAPI.search(this.state.searchQuery).then(books => searchbooklist =books);
-            console.log(searchbooklist);
-
-            this.setState(() => (
-                {
-                    stateBooksList:searchbooklist,
-                    title: 'Search Result'
-
-                }));
-          
-        }
     }
 
     render() {
