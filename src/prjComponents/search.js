@@ -29,16 +29,14 @@ class Search extends Component {
     }
 
     searchforbook() {
-
-        console.log('search');
         BooksAPI.search(this.state.searchQuery).then(books => {
+            console.log(books);
+            //(typeof books !== '[object Array]')?console.log(books):console.log('array !!!');
             let searchlist = [];
-            (books === undefined) ? searchlist = [] : searchlist = books;
+            (books === undefined|| !Array.isArray(books) ) ? searchlist = [] : searchlist = books;
             this.setState(() => ({
                 stateBooksList: searchlist,
                 title: 'Search Result'
-
-
             }))
         }
 
