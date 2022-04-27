@@ -44,7 +44,7 @@ class Search extends Component {
 
     searchfunc(query) {
         this.setState(() => ({
-            searchQuery: query.trim()
+            searchQuery: query
         }))
     }
 
