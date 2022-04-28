@@ -3,6 +3,12 @@ import BooksList from "./bookslist";
 
 class BooksShelves extends Component {
 
+    state = {
+        currentlyReadingBooksList: [],
+        wantToReadBooksList: [],
+        readBooksList: [],
+    }
+
     render() {
         return (
             <div className="list-books">
@@ -11,9 +17,9 @@ class BooksShelves extends Component {
                 </div>
 
                 <div className="list-books-content">
-                    <BooksList />
-                    <BooksList />
-                    <BooksList />
+                    <BooksList booklist={this.state.currentlyReadingBooksList} title={'Currently Reading'} />
+                    <BooksList booklist={this.state.wantToReadBooksList} title={'Wants To Read'}  />
+                    <BooksList booklist={this.state.readBooksList} title={'Read'}  />
                 </div>
             </div>
         )

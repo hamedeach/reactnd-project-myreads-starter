@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import propTypes from "prop-types";
+import * as BooksAPI from '../BooksAPI';
 
 class Book extends Component {
 
@@ -15,6 +16,8 @@ class Book extends Component {
     changebookstate(newstate) {
         console.log('changebookstate : ' + newstate)
         this.setState(() => ({ bookstate: newstate }))
+        console.log(this.props.bookobj);
+        BooksAPI.update(this.props.bookobj,this.state.bookstate).then(res=>console.log(res));
     }
 
     render() {

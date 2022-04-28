@@ -16,15 +16,6 @@ class BooksList extends Component {
 
   }
 
-
-
-
-
-
-
-
-
-
   render() {
     const renderBookslist = this.props.booklist;
     return (
