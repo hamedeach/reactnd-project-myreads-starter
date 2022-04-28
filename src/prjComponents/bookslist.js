@@ -13,6 +13,7 @@ class BooksList extends Component {
   static propTypes = {
     booklist: propTypes.array.isRequired,
     title: propTypes.string.isRequired,
+    
 
   }
 
@@ -31,7 +32,7 @@ class BooksList extends Component {
                 <ol className="books-grid">
                   {
                     renderBookslist.map((book) => (
-                      <Book key={book.id} bookobj={book} />
+                      <Book key={book.id} bookobj={book} refresh={this.props.refresh}  />
                     ))
 
                   }

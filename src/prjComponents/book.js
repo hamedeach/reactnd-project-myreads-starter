@@ -6,19 +6,24 @@ class Book extends Component {
 
     static propTypes = {
         bookobj: propTypes.object.isRequired,
-
+        
     }
 
     state = {
         bookstate: 'none',
     }
 
+    componentDidMount(){
+        this.setState(() => ({ bookstate: this.props.bookobj.shelf }))
+    }
+
     changebookstate(newstate) {
         console.log('changebookstate : ' + newstate)
-        this.setState(() => ({ bookstate: newstate }))
-        console.log(this.props.bookobj);
-        BooksAPI.update(this.props.bookobj,this.state.bookstate).then(res=>console.log(res));
+        this.setState((prevState) => ({ bookstate: newstate }))
+        BooksAPI.update(this.props.bookobj,newstate).then(res=>{console.log(res);});
     }
+
+   
 
     render() {
         const mybook = this.props.bookobj;
