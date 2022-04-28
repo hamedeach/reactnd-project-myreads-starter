@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import BooksList from "./bookslist";
 import * as BooksAPI from '../BooksAPI';
+import {Link} from 'react-router-dom';
 
 
 class Search extends Component {
@@ -67,7 +68,10 @@ class Search extends Component {
         return (
             <div className="search-books">
                 <div className="search-books-bar">
-                    <button className="close-search">Close</button>
+                <Link to='/'>
+                <button className="close-search">Close</button>
+                </Link>
+                  
                     <div className="search-books-input-wrapper">
                         <input type="text"
                             placeholder="Search by title or author"

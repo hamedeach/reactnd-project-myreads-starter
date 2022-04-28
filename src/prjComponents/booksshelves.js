@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import BooksList from "./bookslist";
 import * as BooksAPI from '../BooksAPI';
+//import { Link } from 'react-router-dom';8
 
 class BooksShelves extends Component {
 
@@ -65,58 +66,55 @@ class BooksShelves extends Component {
         console.log(oldshelve);
         console.log(newshelf);
 
-        if(oldshelve==='currentlyReading')this.removefromCurrentReadingShelve(book);
-        else if (oldshelve==='wantToRead')this.removefromWantToReadShelve(book);
-        else if (oldshelve==='read')this.removefromReadShelve(book);
+        if (oldshelve === 'currentlyReading') this.removefromCurrentReadingShelve(book);
+        else if (oldshelve === 'wantToRead') this.removefromWantToReadShelve(book);
+        else if (oldshelve === 'read') this.removefromReadShelve(book);
 
-        if(newshelf==='currentlyReading')this.movetoCurrentReadShelve(book);
-        else if (newshelf==='wantToRead')this.movetoWantToReadShelve(book);
-        else if (newshelf==='read')this.movetoReadShelve(book);
+        if (newshelf === 'currentlyReading') this.movetoCurrentReadShelve(book);
+        else if (newshelf === 'wantToRead') this.movetoWantToReadShelve(book);
+        else if (newshelf === 'read') this.movetoReadShelve(book);
 
 
 
     }
 
-    removefromCurrentReadingShelve(book)
-    {
+    removefromCurrentReadingShelve(book) {
         this.setState((currentState) => ({
-            currentlyReadingBooksList :  currentState.currentlyReadingBooksList.filter((b)=>{return b.id !== book.id})
+            currentlyReadingBooksList: currentState.currentlyReadingBooksList.filter((b) => { return b.id !== book.id })
         }));
     }
 
-    removefromWantToReadShelve(book)
-    {
+    removefromWantToReadShelve(book) {
         this.setState((currentState) => ({
-            wantToReadBooksList :  currentState.wantToReadBooksList.filter((b)=>{return b.id !== book.id})
+            wantToReadBooksList: currentState.wantToReadBooksList.filter((b) => { return b.id !== book.id })
         }));
     }
 
-    removefromReadShelve(book)
-    {
+    removefromReadShelve(book) {
         this.setState((currentState) => ({
-            readBooksList :  currentState.readBooksList.filter((b)=>{return b.id !== book.id})
-        }));
-        
-    }
-
-    movetoCurrentReadShelve(book){
-        this.setState((currentState) => ({
-            currentlyReadingBooksList : [...currentState.currentlyReadingBooksList,book]
+            readBooksList: currentState.readBooksList.filter((b) => { return b.id !== book.id })
         }));
 
     }
 
-    movetoWantToReadShelve(book){
+    movetoCurrentReadShelve(book) {
         this.setState((currentState) => ({
-            wantToReadBooksList : [...currentState.wantToReadBooksList,book]
+            currentlyReadingBooksList: [...currentState.currentlyReadingBooksList, book]
+        }));
+
+    }
+
+    movetoWantToReadShelve(book) {
+        this.setState((currentState) => ({
+            wantToReadBooksList: [...currentState.wantToReadBooksList, book]
         }));
     }
 
-    movetoReadShelve(book){
+    movetoReadShelve(book) {
         this.setState((currentState) => ({
-            readBooksList : [...currentState.readBooksList,book]
+            readBooksList: [...currentState.readBooksList, book]
         }));
-        
+
     }
 
 
@@ -133,6 +131,8 @@ class BooksShelves extends Component {
                     <BooksList booklist={this.state.wantToReadBooksList} title={'Wants To Read'} updateShelves={this.updateShelves} />
                     <BooksList booklist={this.state.readBooksList} title={'Read'} updateShelves={this.updateShelves} />
                 </div>
+               
+
             </div>
         )
     }
