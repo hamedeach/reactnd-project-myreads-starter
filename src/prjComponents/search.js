@@ -53,6 +53,16 @@ class Search extends Component {
         (this.state.searchQuery === '') ? this.loadallbooks() : this.searchforbook()
     }
 
+    updateShelves=(book)=> {
+
+        console.log('search update shelves...')
+        this.setState((currentState) => ({
+            stateBooksList: currentState.stateBooksList.filter((b) => { return b.id !== book.id })
+        }));
+
+
+    }
+
     render() {
         return (
             <div className="search-books">
@@ -65,7 +75,7 @@ class Search extends Component {
                             onChange={(event) => this.searchfunc(event.target.value)}
                             onKeyPress={(event) => {
                                 if (event.key === "Enter") {
-                                    
+
                                     this.loadfiltered();
                                 }
                             }
@@ -73,7 +83,7 @@ class Search extends Component {
                         />
                     </div>
                 </div>
-                <BooksList booklist={this.state.stateBooksList} title={this.state.title} updateShelves={()=>{}}/>
+                <BooksList booklist={this.state.stateBooksList} title={this.state.title} updateShelves={this.updateShelves} />
                 <div className="search-books-results">
                     <ol className="books-grid"></ol>
                 </div>
