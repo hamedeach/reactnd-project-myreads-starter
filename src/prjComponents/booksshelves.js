@@ -13,11 +13,11 @@ class BooksShelves extends Component {
     loadcurrentlyReadingBooksList() {
         BooksAPI.getAll()
             .then((receivedBooks) => {
-              const tempShelf=  receivedBooks.filter(book=>book.shelf==='currentlyReading')
+                const tempShelf = receivedBooks.filter(book => book.shelf === 'currentlyReading')
                 console.log(tempShelf);
                 this.setState(() => ({
                     currentlyReadingBooksList: tempShelf,
-                   
+
                 }))
             });
     }
@@ -25,11 +25,11 @@ class BooksShelves extends Component {
     loadwantToReadBooksList() {
         BooksAPI.getAll()
             .then((receivedBooks) => {
-                const tempShelf=  receivedBooks.filter(book=>book.shelf==='wantToRead')
+                const tempShelf = receivedBooks.filter(book => book.shelf === 'wantToRead')
                 console.log(tempShelf);
                 this.setState(() => ({
                     wantToReadBooksList: tempShelf,
-                    
+
                 }))
             });
     }
@@ -38,11 +38,11 @@ class BooksShelves extends Component {
     loadreadBooksList() {
         BooksAPI.getAll()
             .then((receivedBooks) => {
-                const tempShelf=  receivedBooks.filter(book=>book.shelf==='read')
+                const tempShelf = receivedBooks.filter(book => book.shelf === 'read')
                 console.log(tempShelf);
                 this.setState(() => ({
                     readBooksList: tempShelf,
-                    
+
                 }))
             });
     }
@@ -54,12 +54,71 @@ class BooksShelves extends Component {
         this.loadwantToReadBooksList();
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         console.log('componentDidUpdate ... ')
 
     }
 
-    
+    updateShelves = (book, oldshelve, newshelf) => {
+        console.log('updating shelves was invoked !!')
+        console.log(book);
+        console.log(oldshelve);
+        console.log(newshelf);
+
+        if(oldshelve==='currentlyReading')this.removefromCurrentReadingShelve(book);
+        else if (oldshelve==='wantToRead')this.removefromWantToReadShelve(book);
+        else if (oldshelve==='read')this.removefromReadShelve(book);
+
+        if(newshelf==='currentlyReading')this.movetoCurrentReadShelve(book);
+        else if (newshelf==='wantToRead')this.movetoWantToReadShelve(book);
+        else if (newshelf==='read')this.movetoReadShelve(book);
+
+
+
+    }
+
+    removefromCurrentReadingShelve(book)
+    {
+        this.setState((currentState) => ({
+            currentlyReadingBooksList :  currentState.currentlyReadingBooksList.filter((b)=>{return b.id !== book.id})
+        }));
+    }
+
+    removefromWantToReadShelve(book)
+    {
+        this.setState((currentState) => ({
+            wantToReadBooksList :  currentState.wantToReadBooksList.filter((b)=>{return b.id !== book.id})
+        }));
+    }
+
+    removefromReadShelve(book)
+    {
+        this.setState((currentState) => ({
+            readBooksList :  currentState.readBooksList.filter((b)=>{return b.id !== book.id})
+        }));
+        
+    }
+
+    movetoCurrentReadShelve(book){
+        this.setState((currentState) => ({
+            currentlyReadingBooksList : [...currentState.currentlyReadingBooksList,book]
+        }));
+
+    }
+
+    movetoWantToReadShelve(book){
+        this.setState((currentState) => ({
+            wantToReadBooksList : [...currentState.wantToReadBooksList,book]
+        }));
+    }
+
+    movetoReadShelve(book){
+        this.setState((currentState) => ({
+            readBooksList : [...currentState.readBooksList,book]
+        }));
+        
+    }
+
 
 
     render() {
@@ -70,9 +129,9 @@ class BooksShelves extends Component {
                 </div>
 
                 <div className="list-books-content">
-                    <BooksList booklist={this.state.currentlyReadingBooksList} title={'Currently Reading'}   />
-                    <BooksList booklist={this.state.wantToReadBooksList} title={'Wants To Read'}  />
-                    <BooksList booklist={this.state.readBooksList} title={'Read'}  />
+                    <BooksList booklist={this.state.currentlyReadingBooksList} title={'Currently Reading'} updateShelves={this.updateShelves} />
+                    <BooksList booklist={this.state.wantToReadBooksList} title={'Wants To Read'} updateShelves={this.updateShelves} />
+                    <BooksList booklist={this.state.readBooksList} title={'Read'} updateShelves={this.updateShelves} />
                 </div>
             </div>
         )

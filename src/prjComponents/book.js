@@ -6,7 +6,7 @@ class Book extends Component {
 
     static propTypes = {
         bookobj: propTypes.object.isRequired,
-        
+        updateShelves: propTypes.func.isRequired,
     }
 
     state = {
@@ -19,6 +19,7 @@ class Book extends Component {
 
     changebookstate(newstate) {
         console.log('changebookstate : ' + newstate)
+        this.props.updateShelves(this.props.bookobj,this.state.bookstate,newstate);
         this.setState((prevState) => ({ bookstate: newstate }))
         BooksAPI.update(this.props.bookobj,newstate).then(res=>{console.log(res);});
     }

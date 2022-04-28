@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import BooksList from "./bookslist";
 import * as BooksAPI from '../BooksAPI';
 
+
 class Search extends Component {
 
 
@@ -72,7 +73,7 @@ class Search extends Component {
                         />
                     </div>
                 </div>
-                <BooksList booklist={this.state.stateBooksList} title={this.state.title} />
+                <BooksList booklist={this.state.stateBooksList} title={this.state.title} updateShelves={()=>{}}/>
                 <div className="search-books-results">
                     <ol className="books-grid"></ol>
                 </div>
