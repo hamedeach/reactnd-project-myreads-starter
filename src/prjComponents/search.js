@@ -11,17 +11,27 @@ class Search extends Component {
             searchQuery: '',
             booksList: []
         };
+        this.myReads=[]
+    }
+
+   
+
+    componentDidMount(){
+        BooksAPI.getAll()
+            .then((receivedBooks) => {
+                console.log(receivedBooks);
+                this.myReads = receivedBooks;
+            })
     }
 
 
-
     componentDidUpdate(prevProps, prevState) {
-        console.log('updating...' + " query = " + this.state.searchQuery);
-        console.log(prevState);
+       // console.log('updating...' + " query = " + this.state.searchQuery);
+       // console.log(prevState);
         if(prevState.searchQuery ===this.state.searchQuery)return;
 
         BooksAPI.search(this.state.searchQuery.trim()).then(books => {
-            console.log(books);
+           // console.log(books);
             let searchlist = [];
             (books === undefined || !Array.isArray(books)) ? searchlist = [] : searchlist = books;
             this.setState(() => ({
@@ -36,7 +46,7 @@ class Search extends Component {
 
 
     searchfunc(query) {
-        console.log("query is :" + query);
+       // console.log("query is :" + query);
         this.setState(() => ({
             searchQuery: query
         }))
@@ -48,7 +58,7 @@ class Search extends Component {
 
     updateShelves = (book) => {
 
-        console.log('search update shelves...')
+       // console.log('search update shelves...')
         this.setState((currentState) => ({
             booksList: currentState.booksList.filter((b) => { return b.id !== book.id })
         }));
@@ -75,7 +85,7 @@ class Search extends Component {
                         />
                     </div>
                 </div>
-                <BooksList booklist={this.state.booksList} title={'Searching Results'} updateShelves={this.updateShelves} />
+                <BooksList booklist={this.state.booksList} title={'Searching Results'} updateShelves={this.updateShelves} myReads={this.myReads} />
                 <div className="search-books-results">
                     <ol className="books-grid"></ol>
                 </div>

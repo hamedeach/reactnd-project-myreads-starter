@@ -7,6 +7,7 @@ class Book extends Component {
     static propTypes = {
         bookobj: propTypes.object.isRequired,
         updateShelves: propTypes.func.isRequired,
+        myReads:propTypes.array.isRequired,
     }
 
     state = {
@@ -14,22 +15,37 @@ class Book extends Component {
     }
 
     componentDidMount(){
-        this.setState(() => ({ bookstate: this.props.bookobj.shelf }))
+        console.log('book did mount');
+        const myReadBook = this.props.myReads.filter(book=>{return(book.id ===this.props.bookobj.id);});
+        
+        if(myReadBook.length>0){
+           const shelfBook = myReadBook[0];
+           this.setState((prevState) => ({ bookstate: shelfBook.shelf }))
+        }
     }
+    
+
+
 
     changebookstate(newstate) {
         console.log('changebookstate : ' + newstate)
-        this.props.updateShelves(this.props.bookobj,this.state.bookstate,newstate);
+        const updatedbook = this.props.bookobj;
+        const oldbookshelf = this.state.bookstate
+        const newbookshelf = newstate
+
         this.setState((prevState) => ({ bookstate: newstate }))
-        BooksAPI.update(this.props.bookobj,newstate).then(res=>{console.log(res);});
+        BooksAPI.update(this.props.bookobj, newstate).then(res => {
+            // console.log(res);
+            this.props.updateShelves(updatedbook,oldbookshelf,newbookshelf,res);
+        });
     }
 
-   
+
 
     render() {
         const mybook = this.props.bookobj;
-        let bg='';
-        (mybook.hasOwnProperty('imageLinks') && mybook.imageLinks.hasOwnProperty('thumbnail'))?bg=mybook.imageLinks.thumbnail:bg='';
+        let bg = '';
+        (mybook.hasOwnProperty('imageLinks') && mybook.imageLinks.hasOwnProperty('thumbnail')) ? bg = mybook.imageLinks.thumbnail : bg = '';
 
         return (
             <li key={mybook.id}>
@@ -47,8 +63,8 @@ class Book extends Component {
                         </div>
                     </div>
                     <div className="book-title">{mybook.title}</div>
-                    <div className="book-authors">{ 
-                    (mybook.hasOwnProperty('authors') && Array.isArray(mybook.authors))? mybook.authors[0] :''
+                    <div className="book-authors">{
+                        (mybook.hasOwnProperty('authors') && Array.isArray(mybook.authors)) ? mybook.authors[0] : ''
                     }</div>
                 </div>
 

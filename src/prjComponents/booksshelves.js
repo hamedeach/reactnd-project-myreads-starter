@@ -1,121 +1,55 @@
 import React, { Component } from "react";
 import BooksList from "./bookslist";
 import * as BooksAPI from '../BooksAPI';
-//import { Link } from 'react-router-dom';8
+//import { Link } from 'react-router-dom';
 
 class BooksShelves extends Component {
-
-    state = {
-        currentlyReadingBooksList: [],
-        wantToReadBooksList: [],
-        readBooksList: [],
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentlyReadingBooksList: [],
+            wantToReadBooksList: [],
+            readBooksList: [],
+        }
+        this.myReads = []
     }
 
-    loadcurrentlyReadingBooksList() {
+
+    _buildMyReady()
+    {
         BooksAPI.getAll()
-            .then((receivedBooks) => {
-                const tempShelf = receivedBooks.filter(book => book.shelf === 'currentlyReading')
-                console.log(tempShelf);
-                this.setState(() => ({
-                    currentlyReadingBooksList: tempShelf,
+        .then((receivedBooks) => {
+            console.log(receivedBooks);
+            this.myReads = receivedBooks;
+            const readShelf = receivedBooks.filter(book => book.shelf === 'read');
+            const wantToReadShelf = receivedBooks.filter(book => book.shelf === 'wantToRead');
+            const currentlyReadingShelf = receivedBooks.filter(book => book.shelf === 'currentlyReading');
+            this.setState(() => ({
+                currentlyReadingBooksList: currentlyReadingShelf,
+                wantToReadBooksList:wantToReadShelf,
+                readBooksList:readShelf,
+            }))
 
-                }))
-            });
+        })
     }
-
-    loadwantToReadBooksList() {
-        BooksAPI.getAll()
-            .then((receivedBooks) => {
-                const tempShelf = receivedBooks.filter(book => book.shelf === 'wantToRead')
-                console.log(tempShelf);
-                this.setState(() => ({
-                    wantToReadBooksList: tempShelf,
-
-                }))
-            });
-    }
-
-
-    loadreadBooksList() {
-        BooksAPI.getAll()
-            .then((receivedBooks) => {
-                const tempShelf = receivedBooks.filter(book => book.shelf === 'read')
-                console.log(tempShelf);
-                this.setState(() => ({
-                    readBooksList: tempShelf,
-
-                }))
-            });
-    }
-
     componentDidMount() {
 
-        this.loadcurrentlyReadingBooksList();
-        this.loadreadBooksList();
-        this.loadwantToReadBooksList();
+       this._buildMyReady();
     }
 
-    componentDidUpdate() {
-        console.log('componentDidUpdate ... ')
 
-    }
 
-    updateShelves = (book, oldshelve, newshelf) => {
-        console.log('updating shelves was invoked !!')
-        console.log(book);
-        console.log(oldshelve);
-        console.log(newshelf);
 
-        if (oldshelve === 'currentlyReading') this.removefromCurrentReadingShelve(book);
-        else if (oldshelve === 'wantToRead') this.removefromWantToReadShelve(book);
-        else if (oldshelve === 'read') this.removefromReadShelve(book);
+    updateShelves = (updatedbook, oldbookshelf, newbookshelf, myreadsobj) => {
+        //console.log('updating shelves was invoked !!')
+        //console.log(`${updatedbook.title} was update - old shelf was ${oldbookshelf} - new shelf is ${newbookshelf}`);        
 
-        if (newshelf === 'currentlyReading') this.movetoCurrentReadShelve(book);
-        else if (newshelf === 'wantToRead') this.movetoWantToReadShelve(book);
-        else if (newshelf === 'read') this.movetoReadShelve(book);
-
+        //just reload all shelves from API
+        this._buildMyReady();
 
 
     }
 
-    removefromCurrentReadingShelve(book) {
-        this.setState((currentState) => ({
-            currentlyReadingBooksList: currentState.currentlyReadingBooksList.filter((b) => { return b.id !== book.id })
-        }));
-    }
-
-    removefromWantToReadShelve(book) {
-        this.setState((currentState) => ({
-            wantToReadBooksList: currentState.wantToReadBooksList.filter((b) => { return b.id !== book.id })
-        }));
-    }
-
-    removefromReadShelve(book) {
-        this.setState((currentState) => ({
-            readBooksList: currentState.readBooksList.filter((b) => { return b.id !== book.id })
-        }));
-
-    }
-
-    movetoCurrentReadShelve(book) {
-        this.setState((currentState) => ({
-            currentlyReadingBooksList: [...currentState.currentlyReadingBooksList, book]
-        }));
-
-    }
-
-    movetoWantToReadShelve(book) {
-        this.setState((currentState) => ({
-            wantToReadBooksList: [...currentState.wantToReadBooksList, book]
-        }));
-    }
-
-    movetoReadShelve(book) {
-        this.setState((currentState) => ({
-            readBooksList: [...currentState.readBooksList, book]
-        }));
-
-    }
 
 
 
@@ -127,11 +61,11 @@ class BooksShelves extends Component {
                 </div>
 
                 <div className="list-books-content">
-                    <BooksList booklist={this.state.currentlyReadingBooksList} title={'Currently Reading'} updateShelves={this.updateShelves} />
-                    <BooksList booklist={this.state.wantToReadBooksList} title={'Wants To Read'} updateShelves={this.updateShelves} />
-                    <BooksList booklist={this.state.readBooksList} title={'Read'} updateShelves={this.updateShelves} />
+                    <BooksList booklist={this.state.currentlyReadingBooksList} title={'Currently Reading'} updateShelves={this.updateShelves}  myReads={this.myReads}/>
+                    <BooksList booklist={this.state.wantToReadBooksList} title={'Wants To Read'} updateShelves={this.updateShelves}  myReads={this.myReads} />
+                    <BooksList booklist={this.state.readBooksList} title={'Read'} updateShelves={this.updateShelves}  myReads={this.myReads}/>
                 </div>
-               
+
 
             </div>
         )
