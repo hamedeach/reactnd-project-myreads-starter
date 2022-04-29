@@ -27,11 +27,22 @@ class BooksList extends Component {
           <div>
             <div className="bookshelf">
               <h2 className="bookshelf-title">{this.props.title}</h2>
+              {
+                (renderBookslist === undefined || renderBookslist.length === 0) ?
+
+                  <div>
+                    <br />
+                    <h3>NA</h3>
+                  </div>
+                  :
+                  <div></div>
+
+              }
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {
                     renderBookslist.map((book) => (
-                      <Book key={book.id} bookobj={book} refresh={this.props.refresh}   updateShelves={this.props.updateShelves} />                    ))
+                      <Book key={book.id} bookobj={book} refresh={this.props.refresh} updateShelves={this.props.updateShelves} />))
 
                   }
 

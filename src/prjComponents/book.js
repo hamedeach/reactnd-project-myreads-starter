@@ -47,7 +47,9 @@ class Book extends Component {
                         </div>
                     </div>
                     <div className="book-title">{mybook.title}</div>
-                    <div className="book-authors">{mybook.authors[0]}</div>
+                    <div className="book-authors">{ 
+                    (mybook.hasOwnProperty('authors') && Array.isArray(mybook.authors))? mybook.authors[0] :''
+                    }</div>
                 </div>
 
             </li>
