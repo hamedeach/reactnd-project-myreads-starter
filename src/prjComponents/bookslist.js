@@ -1,34 +1,20 @@
-import React, { Component } from "react";
+import React from "react";
 import propTypes from "prop-types";
 import Book from "./book";
 
 
-/**
-* @description Represents the book's list
-* @render display all the books available from the server 
-* @componentDidMount used to fetch all the books from the server 
-*/
-class BooksList extends Component {
 
-  static propTypes = {
-    booklist: propTypes.array.isRequired,
-    title: propTypes.string.isRequired,
-    updateShelves: propTypes.func.isRequired,
-    myReads:propTypes.array.isRequired,
-    
-  }
-
-  render() {
-    const renderBookslist = this.props.booklist;
+const BooksList =({booklist,title,updateShelves,myReads})=>  {
+    const renderBookslist = booklist;
     return (
       <div>
         <div className="list-books-title">
-          <h2>{this.props.title}</h2>
+          <h2>{ title}</h2>
         </div>
         <div className="list-books-content">
           <div>
             <div className="bookshelf">
-              <h2 className="bookshelf-title">{this.props.title}</h2>
+              <h2 className="bookshelf-title">{title}</h2>
               {
                 (renderBookslist === undefined || renderBookslist.length === 0) ?
 
@@ -44,7 +30,7 @@ class BooksList extends Component {
                 <ol className="books-grid">
                   {
                     renderBookslist.map((book) => (
-                      <Book key={book.id} bookobj={book} refresh={this.props.refresh} updateShelves={this.props.updateShelves}  myReads={this.props.myReads}/>))
+                      <Book key={book.id} bookobj={book} updateShelves={updateShelves}  myReads={myReads}/>))
 
                   }
 
@@ -58,7 +44,13 @@ class BooksList extends Component {
         </div>
       </div>
     )
-  }
+}
 
+BooksList.propTypes = {
+  booklist: propTypes.array.isRequired,
+  title: propTypes.string.isRequired,
+  updateShelves: propTypes.func.isRequired,
+  myReads:propTypes.array.isRequired,
+  
 }
 export default BooksList;

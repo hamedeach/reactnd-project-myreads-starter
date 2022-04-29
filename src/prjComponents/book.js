@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import propTypes from "prop-types";
 import * as BooksAPI from '../BooksAPI';
+import  BookAuthors from './bookAutor.js'  ;
+
 
 class Book extends Component {
 
@@ -64,7 +66,7 @@ class Book extends Component {
                     </div>
                     <div className="book-title">{mybook.title}</div>
                     <div className="book-authors">{
-                        (mybook.hasOwnProperty('authors') && Array.isArray(mybook.authors)) ? mybook.authors[0] : ''
+                        (mybook.hasOwnProperty('authors') && Array.isArray(mybook.authors)) ? <BookAuthors authorsarray={mybook.authors}/>: 'No Author Available for this book now'
                     }</div>
                 </div>
 
