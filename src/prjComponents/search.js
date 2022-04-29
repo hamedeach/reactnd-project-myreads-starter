@@ -50,7 +50,7 @@ class Search extends Component {
 
         console.log('search update shelves...')
         this.setState((currentState) => ({
-            stateBooksList: currentState.stateBooksList.filter((b) => { return b.id !== book.id })
+            booksList: currentState.booksList.filter((b) => { return b.id !== book.id })
         }));
 
 
